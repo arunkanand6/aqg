@@ -11,7 +11,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
-import React from 'react';
+import React, {useState} from 'react';
 import './login.css'
 import img from '../../asset/prometey-sanchez-noskov-c6M7AoevSXE-unsplash.jpg'
 
@@ -65,6 +65,15 @@ const useStyles = makeStyles((theme) => ({
 export default function SignInSide() {
     const classes = useStyles();
 
+    const[username, setUsername] = useState('');
+    const[password, setPassword] = useState('');
+    const[cookies, setCookies] = useCookies(['user']);
+
+    const handle = (e) =>{
+        setCookies('username',username,{path: '/'});
+        setCookies('password',password,{path: '/'});
+    }
+
     return (
         <Grid container component="main" className={classes.root}>
         <CssBaseline />
@@ -90,6 +99,7 @@ export default function SignInSide() {
                 name="email"
                 autoComplete="email"
                 autoFocus
+                onChange = {(e) => setUsername(e.target.value)}
                 />
                 <TextField
                 variant="outlined"
@@ -101,6 +111,7 @@ export default function SignInSide() {
                 type="password"
                 id="password"
                 autoComplete="current-password"
+                onChange = {(e)=>setPassword(e.target.value)}
                 />
                 <FormControlLabel
                 control={<Checkbox value="remember" color="primary" />}
@@ -112,6 +123,7 @@ export default function SignInSide() {
                 variant="contained"
                 color="primary"
                 className={classes.submit}
+                onClick = {handle}
                 >
                 Sign In
                 </Button>
